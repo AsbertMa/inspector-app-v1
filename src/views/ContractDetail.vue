@@ -85,8 +85,6 @@
                 </div>
                 <div v-show="tabIndex === 4">
                     <FallbackCard :fb="fb" />
-<<<<<<< HEAD
-=======
                 </div>
 
                 <div v-show="tabIndex === 5">
@@ -121,7 +119,6 @@
                         style="margin-bottom: 20px"
                         :item="item"
                     />
->>>>>>> 03019092395b26da817dfc13eaeeedaf30b4b034
                 </div>
             </section>
         </div>
