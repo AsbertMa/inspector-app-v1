@@ -5,6 +5,9 @@ export default class AccountCall extends Vue {
   public item: ABI.FunctionItem | any
   @Prop() public address!: string
 
+  @Prop({ default: false })
+  public prototype?: boolean
+
   public value: string | null = null
   public resp: any = null
   public method: Connex.Thor.Method | null = null
@@ -24,7 +27,9 @@ export default class AccountCall extends Vue {
       element.$parent.newMessage = ''
     })
     this.params.forEach((item, index) => {
-      this.$set(this.params, index, '')
+      if (!(this.prototype && this.item.inputs[index].name === '_self')) {
+        this.$set(this.params, index, '')
+      }
     })
 
     this.resp = null
@@ -36,7 +41,9 @@ export default class AccountCall extends Vue {
   }
 
   public initMethod(address: string, abi: object) {
-    const account = connex.thor.account(address.toLowerCase())
+    const account = connex.thor.account(this.prototype
+      ? '0x000000000000000000000050726f746f74797065'
+      : address.toLowerCase())
     this.method = account.method(abi)
   }
 
@@ -57,7 +64,6 @@ export default class AccountCall extends Vue {
   private async readMethod() {
     try {
       if (this.caller) {
-        // tslint:disable-next-line:max-line-length
         this.resp = await this.method!.value(this.hexValue).caller(this.caller).call(...this.params)
       } else {
         this.resp = await this.method!.value(this.hexValue).call(...this.params)

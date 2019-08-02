@@ -1,5 +1,5 @@
 <template>
-    <div class="section">
+    <div class="section" style="max-width: 1000px; margin: auto">
         <div class="container">
             <form @submit.prevent="sendCode">
                 <b-field
@@ -78,6 +78,10 @@ export default class DeployContract extends Vue {
                 })
             }
         }
+    }
+
+    private created() {
+        this.$ga.page('/inspector/deploy')
     }
 }
 </script>
